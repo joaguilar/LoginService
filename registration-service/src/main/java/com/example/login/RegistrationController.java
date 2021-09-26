@@ -20,11 +20,17 @@ public class RegistrationController {
 		private UserRepository userRepository;
 	
 		@RequestMapping("/register-user/{userName}/{email}/{password}")
-		public String registerUser(
+		public Boolean registerUser(
 				@PathVariable("userName") String userName,
 				@PathVariable("email") String email, 
 				@PathVariable("password") String password
 				) {
+			
+			//Check if the user exists
+			User validateUserExists = userRepository.findByUsername(userName);
+			if (null!=validateUserExists) {
+				return false;
+			}
 			
 			User newUser = new User();
 			newUser.setUsername(userName);
@@ -32,13 +38,13 @@ public class RegistrationController {
 			//Hash code the password before saving *the hash* in the database:
 			int hashedPassword = password.hashCode();
 			
-			newUser.setPassword(String.valueOf(false));
+			newUser.setPassword(String.valueOf(hashedPassword));
 			newUser.setEmail(email);
 			
 			userRepository.save(newUser);
 			
 			
-			return "Registration Success!";
+			return true;
 		}
 
 		@RequestMapping("/check")

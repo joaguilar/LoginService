@@ -65,12 +65,17 @@ public class LoginController {
 			return "register";
 		} 
 		
-		restTemplate.getForObject(
+		boolean result = restTemplate.getForObject(
 				String.format("http://localhost:8089/register-user/%s/%s/%s",userName,email1,password1), 
-				String.class);
-		model.addAttribute("registerSuccess","Successfully Registered user");
-		model.addAttribute("errorMessage","");
-		return "loginPage";
+				Boolean.class);
+		if (result) {
+			model.addAttribute("registerSuccess","Successfully Registered user");
+			return "loginPage";
+		} else {
+			model.addAttribute("errorMessage","User registration failed. Username already in use");
+			return "register";
+		}
+		
 	}
 		
 
