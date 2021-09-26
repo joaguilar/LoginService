@@ -1,5 +1,10 @@
 package com.example.login;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,10 +37,25 @@ public class LoginController {
 			System.out.println(String.format("User %s not found",userName));
 		}
 		if (null != loginUser) {
+			// Get the hashed password:
+			SecureRandom random = new SecureRandom();
+			byte[] salt = new byte[16];
+			random.nextBytes(salt);
+			MessageDigest md;
+			byte[] hashedPassword = null;
+			try {
+				md = MessageDigest.getInstance("SHA-512");
+				md.update(salt);
+				hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			if ((null!=loginUser.getPassword()) &&
-					loginUser.getPassword().equals(password)){
+					loginUser.getPassword().equals(hashedPassword)){
 				model.addAttribute("UserName", userName);
-				model.addAttribute("password", password);
+				model.addAttribute("password", hashedPassword);
 				return "homePage";
 			}
 			model.addAttribute("errorMessage", "Incorrect Password");
