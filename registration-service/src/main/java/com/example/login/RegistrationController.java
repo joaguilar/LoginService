@@ -29,25 +29,10 @@ public class RegistrationController {
 			User newUser = new User();
 			newUser.setUsername(userName);
 			
-			//Hash the password before saving *the hash* in the database:
-			SecureRandom random = new SecureRandom();
-			byte[] salt = new byte[16];
-			random.nextBytes(salt);
-			MessageDigest md;
-			byte[] hashedPassword = password.getBytes();
-			System.out.println("hp:"+hashedPassword);
-			try {
-				System.out.println("hpm");
-				md = MessageDigest.getInstance("SHA-512");
-				md.update(salt);
-				hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
-			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+			//Hash code the password before saving *the hash* in the database:
+			int hashedPassword = password.hashCode();
 			
-			newUser.setPassword(password);
+			newUser.setPassword(String.valueOf(false));
 			newUser.setEmail(email);
 			
 			userRepository.save(newUser);

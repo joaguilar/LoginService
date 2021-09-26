@@ -37,20 +37,9 @@ public class LoginController {
 			System.out.println(String.format("User %s not found",userName));
 		}
 		if (null != loginUser) {
-			// Get the hashed password:
-			SecureRandom random = new SecureRandom();
-			byte[] salt = new byte[16];
-			random.nextBytes(salt);
-			MessageDigest md;
-			byte[] hashedPassword = null;
-			try {
-				md = MessageDigest.getInstance("SHA-512");
-				md.update(salt);
-				hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
-			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			// Get the hashed code password:
+
+			String hashedPassword = String.valueOf(password.hashCode()); 
 
 			if ((null!=loginUser.getPassword()) &&
 					loginUser.getPassword().equals(hashedPassword)){
