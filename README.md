@@ -3,7 +3,15 @@ Login and Registration Microservice POC
 
 ## Application Diagram
 
-* TODO: Add app diagram
+![Application Diagram](Diagrama.png "Application Diagram")
+
+## Mikado Problem Solving Approach
+
+![Application Diagram](Mikado.png "Application Diagram")
+
+## Application Execution
+
+
 
 ## Database Setup
 
@@ -27,20 +35,10 @@ Username/Password are root/secret (make sure to change this)
 
 ## TODO:
 
-* Hash the password
-
-* VALIDATE! the password
-
-* Change Login Controller to a REST controller
-
 * Change Path parameters to POST parameters
 
 * Change REST call to POST
 
-* Split into separate REST microservices
-
-* check for name availability
-
-* check passwords
-
 * Refactor copied User model classes
+
+* Run in containers
