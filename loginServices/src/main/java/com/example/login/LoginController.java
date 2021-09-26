@@ -30,27 +30,17 @@ public class LoginController {
 	@RequestMapping("/login")
 	public String loginHomePage(@RequestParam("userName") String userName,
 			@RequestParam("password") String password, Model model) {
-		User loginUser=null;
-		try {
-			loginUser = userRepository.findByUsername(userName);
-		} catch (Exception e) {
-			System.out.println(String.format("User %s not found",userName));
-		}
-		if (null != loginUser) {
-			// Get the hashed code password:
 
-			String hashedPassword = String.valueOf(password.hashCode()); 
-
-			if ((null!=loginUser.getPassword()) &&
-					loginUser.getPassword().equals(hashedPassword)){
-				model.addAttribute("UserName", userName);
-				model.addAttribute("password", hashedPassword);
-				return "homePage";
-			}
-			model.addAttribute("errorMessage", "Incorrect Password");
-			return "loginPage";
-		}
-		model.addAttribute("errorMessage", String.format("User %s not found",userName));
+		boolean result = restTemplate.getForObject(
+				String.format("http://localhost:8087/validate-login/%s/%s",userName,password), 
+				Boolean.class);
+		
+		if (result) {
+			model.addAttribute("UserName", userName);
+			model.addAttribute("password", password);
+			return "homePage";
+		} 
+		model.addAttribute("errorMessage", "Incorrect Username or Password");
 		return "loginPage";
 	}
 	
