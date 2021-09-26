@@ -32,9 +32,14 @@ public class LoginController {
 			System.out.println(String.format("User %s not found",userName));
 		}
 		if (null != loginUser) {
-			model.addAttribute("UserName", userName);
-			model.addAttribute("password", password);
-			return "homePage";
+			if ((null!=loginUser.getPassword()) &&
+					loginUser.getPassword().equals(password)){
+				model.addAttribute("UserName", userName);
+				model.addAttribute("password", password);
+				return "homePage";
+			}
+			model.addAttribute("errorMessage", "Incorrect Password");
+			return "loginPage";
 		}
 		model.addAttribute("errorMessage", String.format("User %s not found",userName));
 		return "loginPage";
