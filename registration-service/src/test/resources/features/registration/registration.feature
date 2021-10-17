@@ -28,6 +28,10 @@ Feature: Registration
     Examples: 
       | theUser   | theEmail	       | thePassword  |
       | testUser7 | email7@login.com | password7    |
+      | testUser5 | email5@login.com | password5    |
+      | testUser4 | email4@login.com | password4    |
+      | testUser3 | email3@login.com | password3    |
+      | testUser2 | email2@login.com | password2    |
       
       
   @UserRegistration
@@ -39,4 +43,8 @@ Feature: Registration
     Examples: 
       | theUser   | theEmail	       | thePassword  |
       | testUser7 | email7@login.com | password7    |
+      | testUser5 | email5@login.com | password5    |
+      | testUser4 | email4@login.com | password4    |
+      | testUser3 | email3@login.com | password3    |
+      | testUser2 | email2@login.com | password2    |
 
