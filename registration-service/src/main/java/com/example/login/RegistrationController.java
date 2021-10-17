@@ -46,7 +46,33 @@ public class RegistrationController {
 			
 			return true;
 		}
+		
+		@RequestMapping("/check-exists/{userName}")
+		public boolean checkExists( @PathVariable("userName") String userName) {
+			User validateUserExists = userRepository.findByUsername(userName);
+			if (null!=validateUserExists) {
+				return false;
+			}
+			return true;
+		}
 
+		@RequestMapping("/delete-user/{userName}")
+		public Boolean deleteUser(
+				@PathVariable("userName") String userName
+				) {
+			
+			//Check if the user exists
+			User validateUserExists = userRepository.findByUsername(userName);
+			if (null==validateUserExists) {
+				return false;
+			}
+			
+			userRepository.delete(validateUserExists);
+
+			return true;
+		}
+
+		
 		@RequestMapping("/check")
 		public String registerCheck() {
 			return "Success!";
